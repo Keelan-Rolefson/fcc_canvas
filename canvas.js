@@ -12,33 +12,23 @@
         };
         image.src = 'images/devious.png';
 
-        // Draw the image, one tile at a time, with border - and clear the bottom left tile.
+        // Create an array for the number of tiles.
 
-        function drawTiles() {
+        let tiles = []
 
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    const sx = j * tileSize;
-                    const sy = i * tileSize;
-                    const dx = j * tileSize;
-                    const dy = i * tileSize;
-                    ctx.drawImage(image, sx, sy, tileSize, tileSize, dx, dy, tileSize, tileSize);
-                    ctx.strokeRect(dx, dy, tileSize, tileSize);
+        // Push the coordinate values to the array.
 
-                    if (j === 0 && i === 3) {
-                        ctx.clearRect(dx, dy, tileSize, tileSize);
-                    }
+        function assignTiles() {
+            for (y = 0; y < 4; y++) {
+                for(x = 0; x < 4; x++) {
+                    tiles.push([y * 100, x * 100]);
                 }
             }
         }
 
-        // Create an array the number of tiles.
+        // Take the array and shuffle it.
 
-        let tiles = []
-
-        // Take an array and shuffle it.
-
-        function shuffleArray(tiles) {
+        function shuffleArray() {
                 let currentIndex = tiles.length, randomIndex;
                 while (currentIndex > 0) {
                     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -50,30 +40,25 @@
             return tiles;
         }
 
-        // Populate the array with a number representing each tile
+        // Draw the image, one tile at a time, with border.
 
-        function countTiles() {
-            for (let i = 0; i < rows * cols; i++) {
-                tiles[i] = i;
-            }
-            shuffleArray(tiles);
-        }
-        
-        // Init
+        function drawTiles() {
 
-        function createPuzzle() {
-            drawTiles();
-            countTiles();
-        }
+            for (i = 0; i < rows; i++) {
+                for (j = 0; j < cols; j++) {
+                    let sx = j * tileSize;
+                    let sy = i * tileSize;
+                    let dx = tiles[j][1];
+                    let dy = tiles[i][0];
 
-
-        function assignTiles() {
-            for (y = 0; y < 4; y++) {
-                for(x = 0; x < 4; x++) {
-                    tiles.push([y * 100, x * 100]);
+                    ctx.drawImage(image, sx, sy, tileSize, tileSize, dx, dy, tileSize, tileSize);
+                    ctx.strokeRect(dx, dy, tileSize, tileSize);
                 }
             }
-        
-        console.log(tiles);
         }
 
+        function createPuzzle() {
+            assignTiles();
+            shuffleArray(tiles);
+            drawTiles(tiles);
+        }
