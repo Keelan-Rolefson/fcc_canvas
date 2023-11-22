@@ -43,22 +43,22 @@
         // Draw the image, one tile at a time, with border.
 
         function drawTiles() {
+            
+            console.log(tiles);
 
-            for (i = 0; i < rows; i++) {
-                for (j = 0; j < cols; j++) {
-                    let sx = j * tileSize;
-                    let sy = i * tileSize;
-                    let dx = tiles[j][1];
-                    let dy = tiles[i][0];
+            for (i = 0; i < rows * cols; i++) {
+                let sx = tiles[0][i];
+                let sy = tiles[0][i];
+                let dx = tiles[i][0];
+                let dy = tiles[i][1];
 
-                    ctx.drawImage(image, sx, sy, tileSize, tileSize, dx, dy, tileSize, tileSize);
-                    ctx.strokeRect(dx, dy, tileSize, tileSize);
-                }
+                ctx.drawImage(image, sx, sy, tileSize, tileSize, dx, dy, tileSize, tileSize);
+                ctx.strokeRect(dx, dy, tileSize, tileSize);
             }
         }
 
         function createPuzzle() {
             assignTiles();
             shuffleArray(tiles);
-            drawTiles(tiles);
+            drawTiles();
         }
